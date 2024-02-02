@@ -115,7 +115,8 @@ class Snake(GameObject):
 
 def main():
     # Тут нужно создать экземпляры классов.
-    ...
+    Snake()
+    Apple()
 
     while True:
         clock.tick(SPEED)
