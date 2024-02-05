@@ -141,7 +141,7 @@ class Snake(GameObject):
     def reset(self):
         """Метод возвращающий змею в исходное положение."""
         self.length = 1
-        self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2), ]
+        self.positions = [SCREEN_CENTRE]
         self.next_direction = None
         self.direction = choice(DIRECTION)
         self.last = None
