@@ -160,13 +160,6 @@ class Snake(GameObject):
         elif len(self.positions) < self.length:
             self.positions.insert(0, (dx, dy))
 
-        # board_x = (dx + self.direction[0]) % SCREEN_WIDTH
-        # board_y = (dy + self.direction[1] % SCREEN_HEIGHT)
-
-        # if self.positions >= SCREEN_HEIGHT:
-        #     self.last = self.get_head_position.pop()
-        #     self.positions.insert(0, (board_x, dy))
-        
 
 def handle_keys(self):
     """Метод кправление объектами с помощью нажатия клавишь."""
