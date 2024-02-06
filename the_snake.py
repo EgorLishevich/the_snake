@@ -35,7 +35,7 @@ APPLE_COLOR = (255, 0, 0)
 SNAKE_COLOR = (0, 255, 0)
 
 # Скорость движения змейки:
-SPEED = 20
+SPEED = 5
 
 # Настройка игрового окна:
 screen = pygame.display.set_mode((SCREEN_SIZE), 0, 32)
@@ -53,7 +53,7 @@ class GameObject:
 
     def __init__(self, body_color=BOARD_BACKGROUND_COLOR) -> None:
         """Инициализация базовых атрибутов GameObject."""
-        self.position = ((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))
+        self.position = (SCREEN_CENTRE)
         self.body_color = body_color
 
     def draw(self, surface):
@@ -64,7 +64,7 @@ class GameObject:
         """Отрисовка одной клетки на игрой поверхности."""
         rect = (
             pygame.Rect(
-                (position), (GRID_SIZE, GRID_SIZE)
+                position, (GRID_SIZE, GRID_SIZE)
             )
         )
         pygame.draw.rect(surface, body_color, rect)
@@ -73,7 +73,7 @@ class GameObject:
         """Затирание одной клетки на игровой поверхности."""
         rect = (
             pygame.Rect(
-                (position), (GRID_SIZE, GRID_SIZE)
+                position, (GRID_SIZE, GRID_SIZE)
             )
         )
         pygame.draw.rect(surface, BOARD_BACKGROUND_COLOR, rect)
@@ -102,26 +102,16 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Дочерний класс Snake."""
 
-    def __init__(self, body_color=BOARD_BACKGROUND_COLOR) -> None:
+    def __init__(self, body_color=SNAKE_COLOR) -> None:
         """Инизиализация класса Snake."""
         super().__init__(body_color)
-        self.body_color = SNAKE_COLOR
         self.handle_keys = choice(DIRECTION)
         self.reset()
-        self.positions = [SCREEN_CENTRE]
-        self.length = 1
         self.direction = RIGHT
 
     def draw(self, surface):
         """Метод отвечающий за отричовку головы и тела змеи,"""
         """а так же за удаление последнего элемента."""
-        for position in self.positions[:-1]:
-            rect = (
-                pygame.Rect((position[0], position[1]), (GRID_SIZE, GRID_SIZE))
-            )
-            pygame.draw.rect(surface, self.body_color, rect)
-            pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
-
         head_position = self.get_head_position()
         self.paint(surface, head_position, self.body_color)
 
@@ -151,14 +141,16 @@ class Snake(GameObject):
         """Метод отвечающий за движение и рост змеи."""
         head_position = self.get_head_position()
 
-        dx = (head_position[0] + self.direction[0] * GRID_SIZE) % SCREEN_WIDTH
-        dy = (head_position[1] + self.direction[1] * GRID_SIZE) % SCREEN_HEIGHT
+        x, y = self.direction
+        new_position = (
+            (head_position[0] + x * GRID_SIZE) % SCREEN_WIDTH,
+            (head_position[1] + y * GRID_SIZE) % SCREEN_HEIGHT
+        )
 
-        if len(self.positions) >= self.length:
+        self.positions.insert(0, new_position)
+
+        if len(self.positions) > self.length:
             self.last = self.positions.pop()
-            self.positions.insert(0, (dx, dy))
-        elif len(self.positions) < self.length:
-            self.positions.insert(0, (dx, dy))
 
 
 def handle_keys(self):
